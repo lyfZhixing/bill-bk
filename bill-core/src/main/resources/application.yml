@@ -1,0 +1,38 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: bill-core
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bill?useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8&serverTimezone=CTT
+    username: root
+    password: admin
+  redis:
+    host: 127.0.0.1
+    timeout: 5000ms
+    password:
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+
+mybatis-plus:
+  mapper-locations: classpath*:/META-INF/mapper/**Mapper.xml
+  typeAliasesPackage: org.bill.core.model.entity
+  global-config:
+    db-config:
+      id-type: ID_WORKER #AUTO 自增  ; NONE 设置主键类型 ; INPUT 用户输入ID ; ID_WORKER 全局唯一ID (idWorker) ; UUID 全局唯一ID (UUID); ID_WORKER_STR 字符串全局唯一ID (idWorker 的字符串表示)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true #配置的缓存的全局开关
+    lazyLoadingEnabled: true #延时加载的开关
+    multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
+
+logging:
+  level:
+    org.bill.core: debug
