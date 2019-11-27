@@ -2,6 +2,10 @@ package org.bill.core.service;
 
 import org.bill.core.model.entity.Bill;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.bill.core.model.vo.BillVO;
+import org.bill.core.model.vo.BillVOs;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBillService extends IService<Bill> {
 
+    BillVOs selectListVo(Bill bill);
 }

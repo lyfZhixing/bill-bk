@@ -7,6 +7,7 @@ package org.bill.core.model.entity;
     import lombok.EqualsAndHashCode;
     import lombok.experimental.Accessors;
     import org.bill.common.model.VersionEntity;
+    import org.springframework.format.annotation.DateTimeFormat;
 
 /**
 * <p>
@@ -56,6 +57,7 @@ package org.bill.core.model.entity;
 
     private String remark;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
             /**
@@ -63,6 +65,7 @@ package org.bill.core.model.entity;
             */
     private Long createBy;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
     private Long updateBy;

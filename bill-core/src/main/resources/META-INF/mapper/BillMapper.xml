@@ -2,4 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.bill.core.repository.BillMapper">
 
+    <select id="selectListVo" parameterType="org.bill.core.model.entity.Bill" resultType="org.bill.core.model.vo.BillVO">
+        SELECT bill.id id, bill.income income, bill.is_money isMoney, bill.remark remark,
+                bill.weight weight,dict1.`name` receiptTypeName,dict2.`name` saleTypeName,
+                dict3.`name` signatureName, dict4.`name` varietyName,bill.create_time createTime
+        FROM bill
+        LEFT JOIN dict dict1 ON dict1.id = bill.receipt_type
+        LEFT JOIN dict dict2 on	dict2.id = bill.saleType
+        LEFT JOIN dict dict3 on	dict3.id = bill.signature
+        LEFT JOIN dict dict4 on	dict4.id = bill.variety
+        <where>
+            bill.deleted = 0
+            <if test="saleType != null and saleType != 0">
+                and bill.saleType = #{saleType}
+            </if>
+            <if test="createTime != null">
+                and DATE_FORMAT(bill.create_time,'%Y-%m-%d') = DATE_FORMAT(#{createTime},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
+
+    <select id="getCOuntDay" parameterType="org.bill.core.model.entity.Bill" resultType="map">
+        SELECT SUM(income) inCome, SUM(weight) weight
+        FROM bill
+        <where>
+            bill.deleted = 0
+            <if test="saleType != null and saleType != 0">
+                and bill.saleType = #{saleType}
+            </if>
+            <if test="createTime != null">
+                and DATE_FORMAT(bill.create_time,'%Y-%m-%d') = DATE_FORMAT(#{createTime},'%Y-%m-%d')
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -5,17 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.bill.common.exception.ServiceException;
 import org.bill.common.model.ResultModel;
 import org.bill.core.model.entity.Bill;
+import org.bill.core.model.vo.BillVO;
+import org.bill.core.model.vo.BillVOs;
 import org.bill.core.service.IBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -47,7 +46,12 @@ public class BillController {
             log.error("新增失败");
             resultModel = ResultModel.fail(500,e.getMessage());
         }
-
         return new ResponseEntity<>(resultModel, HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResultModel list(Bill bill) {
+        BillVOs billVo = billService.selectListVo(bill);
+        return ResultModel.ok(billVo);
     }
 }
