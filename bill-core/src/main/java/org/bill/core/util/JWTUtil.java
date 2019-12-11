@@ -1,15 +1,20 @@
 package org.bill.core.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.bill.common.constant.Constants;
+import org.bill.core.model.entity.User;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Token工具类
@@ -77,5 +82,17 @@ public class JWTUtil {
         return claims;
     }
 
+    /**
+     * 生成subject信息
+     * @param user
+     * @return
+     */
+    public static String generalSubject(User user){
+        JSONObject jo = new JSONObject();
+        jo.put("id", user.getId());
+        jo.put("name", user.getName());
+        jo.put("loginName", user.getLoginName());
+        return jo.toJSONString();
+    }
 
 }

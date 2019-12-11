@@ -9,6 +9,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import org.bill.core.authorization.interceptor.AuthorizationInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -27,6 +29,8 @@ import java.util.List;
 @EnableWebMvc
 public class SpringMvcConfig implements WebMvcConfigurer {
 
+    @Autowired
+    private AuthorizationInterceptor authorizationInterceptor;
     /**
      * cors跨域
      * @return
@@ -109,13 +113,25 @@ public class SpringMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("index.html")
+                .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/static/css/**")
+                .addResourceLocations("classpath:/static/css/");
 
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/static/js/**")
+                .addResourceLocations("classpath:/static/js/");
+//        registry.addResourceHandler("/webjars/**")
+//                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+    /**
+     * 配置拦截器
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authorizationInterceptor).addPathPatterns( "/api/**");
+    }
 
 
 }

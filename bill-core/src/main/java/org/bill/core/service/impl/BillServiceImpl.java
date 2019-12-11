@@ -31,9 +31,11 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements IB
         BillVOs billVOs = new BillVOs();
         List<BillVO> billVOS = billMapper.selectListVo(bill);
         Map<String, BigDecimal> count = billMapper.getCOuntDay(bill);
+        BigDecimal income = count == null ? null : count.get("inCome");
+        BigDecimal weight = count == null ? null : count.get("weight");
         billVOs.setBillVOs(billVOS)
-                .setInCome(count.get("inCome"))
-                .setWeight(count.get("weight"));
+                .setInCome(income)
+                .setWeight(weight);
         return billVOs;
     }
 }

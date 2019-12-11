@@ -2,6 +2,7 @@ package org.bill.core.web;
 
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.bill.common.annotation.Authorization;
 import org.bill.common.model.ResultModel;
 import org.bill.core.model.entity.Dict;
 import org.bill.core.repository.DictMapper;
@@ -31,6 +32,7 @@ public class DictController {
     @Autowired
     private IDictService dictService;
 
+    @Authorization
     @GetMapping("/query/children/code/{code}")
     public ResultModel<List<Dict>> getChildByCode(@PathVariable String code) {
         List<Dict> dicts = dictService.list(Wrappers.<Dict>lambdaQuery().eq(Dict::getParent,

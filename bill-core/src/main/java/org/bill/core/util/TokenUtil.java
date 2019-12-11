@@ -1,6 +1,10 @@
 package org.bill.core.util;
 
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.bill.common.constant.Constants;
+import org.bill.common.util.JsonUtil;
+import org.bill.core.model.entity.User;
 
 /**
  * Token 工具类
@@ -9,6 +13,33 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TokenUtil {
 
+
+    /**
+     * 从token中解析出用户信息
+     *
+     * @param auth token信息
+     * @return 用户信息
+     */
+    public static User getUserFromToken(String auth) {
+        if (auth == null) {
+            return null;
+        }
+
+        if (!Constants.TOKEN_PREFIX.equals(auth.substring(0, 7))) {
+            return null;
+        } else {
+            String token = extractJwtTokenFromAuthorizationHeader(auth);
+            try {
+                Claims claims = JWTUtil.parseJWT(token);
+                String subject = claims.getSubject();
+                User user = JsonUtil.jsonToObject(subject, User.class);
+                return user;
+            } catch (Exception e) {
+                log.error("解析JWT token 失败！");
+            }
+        }
+        return null;
+    }
 
     /**
      * 获取真实的toekn，去掉‘Bearer ’

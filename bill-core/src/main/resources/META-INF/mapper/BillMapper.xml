@@ -12,7 +12,7 @@
         LEFT JOIN dict dict3 on	dict3.id = bill.signature
         LEFT JOIN dict dict4 on	dict4.id = bill.variety
         <where>
-            bill.deleted = 0
+            bill.deleted = 0 and bill.company = #{company}
             <if test="saleType != null and saleType != 0">
                 and bill.saleType = #{saleType}
             </if>
@@ -20,6 +20,7 @@
                 and DATE_FORMAT(bill.create_time,'%Y-%m-%d') = DATE_FORMAT(#{createTime},'%Y-%m-%d')
             </if>
         </where>
+        order by bill.create_time desc
     </select>
 
     <select id="getCOuntDay" parameterType="org.bill.core.model.entity.Bill" resultType="map">

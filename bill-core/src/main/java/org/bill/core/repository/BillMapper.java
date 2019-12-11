@@ -1,5 +1,6 @@
 package org.bill.core.repository;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.bill.core.model.entity.Bill;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.bill.core.model.vo.BillVO;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @author lyf
  * @since 2019-11-25
  */
+@Mapper
 public interface BillMapper extends BaseMapper<Bill> {
 
     List<BillVO> selectListVo(Bill bill);
